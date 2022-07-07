@@ -1,6 +1,5 @@
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from typing import Dict, Type
-
 
 
 @dataclass
@@ -19,9 +18,13 @@ class InfoMessage:
                     'Ср. скорость: {speed:.3f} км/ч; '
                     'Потрачено ккал: {calories:.3f}.')
 
-    def get_message(self) -> str:
-        """Строка сообщения."""
-        return self.MESSAGE.format(**asdict(self))
+    def get_message(self):
+        return (self.MESSAGE.format(training_type=self.training_type,
+                duration=self.duration,
+                distance=self.distance,
+                speed=self.speed,
+                calories=self.calories)
+                )
 
 
 class Training:
