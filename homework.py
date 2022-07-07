@@ -18,7 +18,7 @@ class InfoMessage:
                     'Ср. скорость: {speed:.3f} км/ч; '
                     'Потрачено ккал: {calories:.3f}.')
 
-    def get_message(self):
+    def get_message(self) -> str:
         return (self.MESSAGE.format(training_type=self.training_type,
                 duration=self.duration,
                 distance=self.distance,
