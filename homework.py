@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Dict, Type
 
 
@@ -19,12 +19,7 @@ class InfoMessage:
                     'Потрачено ккал: {calories:.3f}.')
 
     def get_message(self) -> str:
-        return (self.MESSAGE.format(training_type=self.training_type,
-                duration=self.duration,
-                distance=self.distance,
-                speed=self.speed,
-                calories=self.calories)
-                )
+        return self.MESSAGE.format(**asdict(self))
 
 
 class Training:
@@ -53,7 +48,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        raise NotImplementedError
+        raise NotImplementedError('Подклассы должны реализовать это.')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -138,8 +133,7 @@ def read_package(workout_type: str, data: list) -> Training:
                                                'RUN': Running,
                                                'WLK': SportsWalking, }
     if workout_type not in list(workout_dict):
-        print('Такой тренировки нет')
-
+        raise ValueError(f'Типа {workout_type} не существет.')
     return workout_dict[workout_type](*data)
 
 
